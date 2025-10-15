@@ -2,9 +2,6 @@ import numpy as np
 import math
 
 """
- ==================================
- Problem 3: Neural Network Basics
- ==================================
     Generates a neural network with the following architecture:
         Fully connected neural network.
         Input vector takes in two features.
@@ -117,5 +114,4 @@ x = NeuralNetwork()
 
 x.train_neural_network()
 
-# UNCOMMENT THE LINE BELOW TO TEST YOUR NEURAL NETWORK
 x.test_neural_network()
