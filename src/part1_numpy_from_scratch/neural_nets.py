@@ -87,10 +87,11 @@ class NeuralNetwork():
         input_values = np.matrix([[x1],[x2]])
 
         # Compute output for a single input(should be same as the forward propagation in training)
-        hidden_layer_weighted_input = # TODO
-        hidden_layer_activation = # TODO
-        output = # TODO
-        activated_output = # TODO
+        hidden_layer_weighted_input = self.input_to_hidden_weights * input_values + self.biases
+        vectorized_relu = np.vectorize(rectified_linear_unit)
+        hidden_layer_activation = vectorized_relu(hidden_layer_weighted_input)
+        output = self.hidden_to_output_weights * hidden_layer_activation
+        activated_output = output_layer_activation(output)
 
         return activated_output.item()
 
@@ -117,4 +118,4 @@ x = NeuralNetwork()
 x.train_neural_network()
 
 # UNCOMMENT THE LINE BELOW TO TEST YOUR NEURAL NETWORK
-# x.test_neural_network()
+x.test_neural_network()
