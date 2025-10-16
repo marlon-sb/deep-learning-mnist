@@ -2,6 +2,7 @@ import pickle, gzip, numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import math
+from pathlib import Path
 
 
 def plot_images(X):
@@ -58,7 +59,11 @@ def get_MNIST_data():
         test_y  - 1D Numpy array (n, ) where each row is a label
 
     """
-    train_set, valid_set, test_set = read_pickle_data('../Datasets/mnist.pkl.gz')
+    # Build a robust, absolute path to the data file
+    project_root = Path(__file__).resolve().parent.parent
+    data_file_path = project_root / 'data/mnist.pkl.gz'
+
+    train_set, valid_set, test_set = read_pickle_data(data_file_path)
     train_x, train_y = train_set
     valid_x, valid_y = valid_set
     train_x = np.vstack((train_x, valid_x))

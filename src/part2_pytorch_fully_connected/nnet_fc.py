@@ -7,11 +7,8 @@ import torch
 import torch.autograd as autograd
 import torch.nn.functional as F
 import torch.nn as nn
-import sys
-sys.path.append("..")
-import utils
-from utils import *
-from train_utils import batchify_data, run_epoch, train_model
+from src.utils import *
+from src.train_utils import batchify_data, run_epoch, train_model
 
 def main():
     # Load the dataset
@@ -37,7 +34,7 @@ def main():
     test_batches = batchify_data(X_test, y_test, batch_size)
 
     #################################
-    ## Model specification TODO
+    ## Model specification
     model = nn.Sequential(
               nn.Linear(784, 10),
               nn.ReLU(),
