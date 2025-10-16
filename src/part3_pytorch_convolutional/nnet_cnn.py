@@ -9,9 +9,8 @@ import torch.nn.functional as F
 import torch.nn as nn
 import sys
 sys.path.append("..")
-import utils
-from utils import *
-from train_utils import batchify_data, run_epoch, train_model, Flatten
+from src.utils import *
+from src.train_utils import batchify_data, run_epoch, train_model, Flatten
 
 def main():
     # Load the dataset
@@ -41,11 +40,18 @@ def main():
     test_batches = batchify_data(X_test, y_test, batch_size)
 
     #################################
-    ## Model specification TODO
+    ## Model specification
     model = nn.Sequential(
               nn.Conv2d(1, 32, (3, 3)),
               nn.ReLU(),
               nn.MaxPool2d((2, 2)),
+              nn.Conv2d(32, 64, (3, 3)),
+              nn.ReLU(),
+              nn.MaxPool2d((2, 2)),
+              Flatten(),
+              nn.Linear(1600, 128),
+              nn.Dropout(p=0.5),
+              nn.Linear(128, 10)
             )
     ##################################
 

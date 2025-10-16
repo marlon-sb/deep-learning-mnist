@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 /src/part2_pytorch_fully_connected/mnist_model_fully_connected.pt
+/src/part3_pytorch_convolutional/mnist_model_fully_connected.pt
