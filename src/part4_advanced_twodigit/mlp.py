@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from train_utils import batchify_data, run_epoch, train_model, Flatten
 import utils_multiMNIST as U
-path_to_data_dir = '../Datasets/'
+path_to_data_dir = '../../data/'
 use_mini_dataset = True
 
 batch_size = 64
@@ -18,12 +18,18 @@ class MLP(nn.Module):
     def __init__(self, input_dimension):
         super(MLP, self).__init__()
         self.flatten = Flatten()
-        # TODO initialize model layers here
+        self.hidden_layer1 = nn.Linear(input_dimension, 64)
+        self.hidden_layer2 = nn.Linear(64, 64)
+        self.linear_first_digit = nn.Linear(64, 10)
+        self.linear_second_digit = nn.Linear(64, 10)
+
 
     def forward(self, x):
         xf = self.flatten(x)
-
-        # TODO use model layers to predict the two digits
+        hidden1_out = F.relu(self.hidden_layer1(xf))
+        hidden2_out = F.relu(self.hidden_layer2(hidden1_out))
+        out_first_digit = self.linear_first_digit(hidden2_out)
+        out_second_digit = self.linear_second_digit(hidden2_out)
 
         return out_first_digit, out_second_digit
 
@@ -59,7 +65,6 @@ def main():
     print('Test loss1: {:.6f}  accuracy1: {:.6f}  loss2: {:.6f}   accuracy2: {:.6f}'.format(loss[0], acc[0], loss[1], acc[1]))
 
 if __name__ == '__main__':
-    # Specify seed for deterministic behavior, then shuffle. Do not change seed for official submissions to edx
     np.random.seed(12321)  # for reproducibility
     torch.manual_seed(12321)  # for reproducibility
     main()
