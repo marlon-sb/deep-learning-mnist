@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from train_utils import batchify_data, run_epoch, train_model, Flatten
 import utils_multiMNIST as U
-path_to_data_dir = '../Datasets/'
+path_to_data_dir = '../../data/'
 use_mini_dataset = True
 
 batch_size = 64
@@ -19,11 +19,30 @@ class CNN(nn.Module):
 
     def __init__(self, input_dimension):
         super(CNN, self).__init__()
-        # TODO initialize model layers here
+        self.feature_extractor = nn.Sequential(
+            nn.Conv2d(1, 32, (3, 3)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+
+            nn.Conv2d(32, 64, (3, 3)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+
+            Flatten(),
+            nn.Linear(2880, 128),
+            nn.Dropout(0.5)
+        )
+
+        # These take the extracted features and make the final predictions.
+        self.linear_first_digit = nn.Linear(128, num_classes)
+        self.linear_second_digit = nn.Linear(128, num_classes)
 
     def forward(self, x):
+        features = self.feature_extractor(x)
 
-        # TODO use model layers to predict the two digits
+        # Feed the extracted features into the two separate heads
+        out_first_digit = self.linear_first_digit(features)
+        out_second_digit = self.linear_second_digit(features)
 
         return out_first_digit, out_second_digit
 
